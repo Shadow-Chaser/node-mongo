@@ -1,5 +1,11 @@
 const express = require("express")
+const bodyParser = require('body-parser')
+const cors = require('cors')
+
 const app = express()
+app.use(cors())
+app.use(bodyParser.json());
+
 const  users = ['Maliha', 'Mahin', 'Moin', 'Asad', 'Galib']
 
 app.get('/', (req, res)=>{
@@ -19,11 +25,22 @@ app.get('/fruits/banana', (req, res)=>{
 })
 
 app.get('/user/:id', (req, res)=>{
-    const userId = req.params.id;
-    const name = users[userId];
+    const id = req.params.id;    
+    const name = users[id];
+    res.send({id, name});
     console.log(req.query.sort);
-    res.send(name);
 })
 
+//post
+
+app.post('/addUser', (req, res)=>{
+    // console.log('data received',req.body);
+
+    //save to database
+    
+    const user = req.body;
+    user.id = 15;
+    res.send(user);
+})
 
 app.listen(3000, () => console.log("listening to 3000"))
